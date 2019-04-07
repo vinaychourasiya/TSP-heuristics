@@ -200,7 +200,3 @@ class ReadData():
                 print("Need to complete it")
         else:
             sys.exit("No Format Match for EXPLICIT data")
-
-
-D = ReadData("rl5915.tsp")
-print(D.GetDistanceMat())
