@@ -1,4 +1,3 @@
-
 # coding: utf-8
 # Author: Vinay Chourasiya
 
@@ -8,9 +7,10 @@ import os
 from scipy.spatial.distance import pdist, squareform
 import numpy as np
 
+
 class ReadData():
     def __init__(self, filename):
-        
+
         self.name = filename[:-4]
         self.size = self.getSize()
         self.EdgeWeightType = self.getEdgeWeightType()
@@ -23,10 +23,10 @@ class ReadData():
                 datalist = data.read().split()
                 for ind, elem in enumerate(datalist):
                     if elem == "EDGE_WEIGHT_FORMAT:":
-                        format_ = datalist[ind+1]
+                        format_ = datalist[ind + 1]
                         break
                     elif elem == "EDGE_WEIGHT_FORMAT":
-                        format_ = datalist[ind+2]
+                        format_ = datalist[ind + 2]
                         break
             return format_
 
@@ -41,11 +41,11 @@ class ReadData():
                 datalist = data.read().split()
                 for ind, elem in enumerate(datalist):
                     if elem == "EDGE_WEIGHT_TYPE:":
-                        EdgeType = datalist[ind+1]
+                        EdgeType = datalist[ind + 1]
                         #print(EdgeType)
                         break
                     elif elem == "EDGE_WEIGHT_TYPE":
-                        EdgeType = datalist[ind+2]
+                        EdgeType = datalist[ind + 2]
                         #print(EdgeType)
                         break
             return EdgeType
@@ -55,7 +55,6 @@ class ReadData():
             sys.exit(1)
 
     def getSize(self):
-        
         """
         Return size of instances (i.e. Number of
         cities)
@@ -67,11 +66,11 @@ class ReadData():
                 datalist = data.read().split()
                 for ind, elem in enumerate(datalist):
                     if elem == "DIMENSION:":
-                        size = datalist[ind+1]
+                        size = datalist[ind + 1]
                         #print(size)
                         break
                     elif elem == "DIMENSION":
-                        size = datalist[ind+2]
+                        size = datalist[ind + 2]
                         #print(size)
                         break
             return int(size)
@@ -83,7 +82,7 @@ class ReadData():
         with open(f'TSP_Data/{self.name}.tsp') as data:
             cities = []
             Isdata = True
-            while(Isdata):
+            while (Isdata):
                 line = data.readline().split()
                 if len(line) <= 0:
                     break
@@ -123,7 +122,7 @@ class ReadData():
         cities = self.read_Data()
         DistanceMat = np.zeros((self.size, self.size))
         for i in range(self.size):
-            for j in range(0,i+1):
+            for j in range(0, i + 1):
                 node1 = cities[i]
                 node2 = cities[j]
                 lat1 = radians(node1[1])
@@ -133,11 +132,10 @@ class ReadData():
                 lon2 = radians(node2[2])
                 dlon = lon2 - lon1
                 dlat = lat2 - lat1
-                a = sin(dlat / 2)**2 + cos(lat1) * \
-                    cos(lat2) * sin(dlon / 2)**2
+                a = sin(dlat / 2)**2 + cos(lat1) * cos(lat2) * sin(dlon / 2)**2
                 c = 2 * atan2(sqrt(a), sqrt(1 - a))
                 distance = R * c
-                DistanceMat[i, j]=distance
+                DistanceMat[i, j] = distance
                 DistanceMat[j, i] = distance
         return DistanceMat
 
@@ -172,7 +170,7 @@ class ReadData():
                     temp = []
                     l = len(cities[i])
                     for j in range(self.size):
-                        if j <= (l-1):
+                        if j <= (l - 1):
                             temp.append(cities[i][j])
                         else:
                             temp.append(cities[j][i])
@@ -200,3 +198,4 @@ class ReadData():
                 print("Need to complete it")
         else:
             sys.exit("No Format Match for EXPLICIT data")
+
