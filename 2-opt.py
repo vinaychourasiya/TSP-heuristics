@@ -1,8 +1,11 @@
 # coding: utf-8
 # Author: Vinay Chourasiya
 
+import time
+start_time = time.time()
 from readData import ReadData
-
+import numpy as np
+import sys 
 
 class TwoOPT:
     """
@@ -23,8 +26,8 @@ class TwoOPT:
         self.instance = ReadData(self.file)
         self.size = self.instance.size
         self.dis_mat = self.instance.GetDistanceMat()
-        self.initial_tour = self.get_initial_tour()
-        self.best_tour = self.initial_tour
+        self.time_read = self.instance.time_to_read
+        self.time_algo = 0
 
     def get_initial_tour(self):
         """
@@ -60,14 +63,13 @@ class TwoOPT:
                 total_dis += self.dis_mat[_from - 1][_to - 1]
         return total_dis
 
-    def _optimize(self, Debuglevel=0):
+    def _optimize(self, initial_tour, Debuglevel=0):
         """
             Improve existing tour 
             using 2-opt method
         """
         minchange = -1
-        tour = self.initial_tour
-        #print(tour)
+        tour = initial_tour
         while minchange < 0:
             minchange = 0
             for i in range(self.size - 3):
@@ -90,13 +92,50 @@ class TwoOPT:
         self.best_tour = tour
         return tour
 
-    def get_best_tour(self):
-        best_tour = self._optimize()
-        tour_distance = self.get_distance(best_tour)
-        print("Best tour is: \n", best_tour, "\n Distance of tour is: \n",
-              tour_distance)
+    def _initial_random_tour(self,seed):
+        """"
+        Return randomly generated tour
+        """
+        np.random.seed(seed)
+        T = np.arange(1,self.size+1)
+        np.random.shuffle(T)
+        return list(T)
+
+    def run(self):
+        tours = []
+        tours_dist = []
+        self._write_info()
+        for r in range(50):
+            T = self._initial_random_tour(r)
+            tour = self._optimize(T)
+            tour_distance = self.get_distance(tour)
+            tours.append(tour)
+            tours_dist.append(tour_distance)
+
+        self._best_tour(tours,tours_dist)
 
 
-t = TwoOPT('ch130.tsp')
-t.get_best_tour()
+    def _best_tour(self,Ts,Tsd):
+        min_dist_index = np.argmin(Tsd)
+        self._writestat(Tsd[min_dist_index], Ts[min_dist_index])
 
+    def _write_info(self):
+        print("Instance name:", self.instance.name)
+        print("Dimention:", self.size)
+        print("Distance Type:", self.instance.EdgeWeightType)
+        print("\n \t \t Running 2-opt over 50 random tour ")
+
+    def _writestat(self,D,T):
+        print("\n Tour Distance: ",D)
+        print(" Best Tour by 2-opt is: \n", T)
+        print("\n Time to read instance (sec): ", round(self.time_read))
+        self.time_algo = time.time() - start_time
+        print(" Time to run instances(sec): ", round(self.time_algo))
+        print(" Total Time (sec): ", round(self.time_read+self.time_algo))
+
+
+if len(sys.argv)<2:
+	print("need inpute file")
+	sys.exit(1)
+t = TwoOPT(sys.argv[1])
+t.run()	 

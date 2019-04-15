@@ -1,12 +1,12 @@
 # coding: utf-8
 # Author: Vinay Chourasiya
 
+import time
+start_time = time.time()
 from math import sin, cos, sqrt, atan2, radians
 import sys
-import os
 from scipy.spatial.distance import pdist, squareform
 import numpy as np
-
 
 class ReadData():
     def __init__(self, filename):
@@ -15,6 +15,7 @@ class ReadData():
         self.size = self.getSize()
         self.EdgeWeightType = self.getEdgeWeightType()
         self.format_ = self.getFormat()  # for EXPLICIT data only
+        self.time_to_read = 0
 
     def getFormat(self):
         format_ = "None"
@@ -100,12 +101,15 @@ class ReadData():
     def GetDistanceMat(self):
         if self.EdgeWeightType == "EXPLICIT":
             DistanceMat = self.getMat()
+            self.time_to_read = time.time() - start_time
             return DistanceMat
         elif self.EdgeWeightType == "EUC_2D" or "CEIL_2D":
             DistanceMat = self.EuclidDist()
+            self.time_to_read = time.time() - start_time
             return DistanceMat
         elif self.EdgeWeightType == "GEO":
             DistanceMat = self.GeographicDist()
+            self.time_to_read = time.time() - start_time
             return DistanceMat
         else:
             return None
@@ -118,6 +122,7 @@ class ReadData():
         return DistanceMat
 
     def GeographicDist(self):
+        a = time.time()
         R = 6373.0
         cities = self.read_Data()
         DistanceMat = np.zeros((self.size, self.size))
@@ -137,6 +142,7 @@ class ReadData():
                 distance = R * c
                 DistanceMat[i, j] = distance
                 DistanceMat[j, i] = distance
+        
         return DistanceMat
 
     def getMat(self):
