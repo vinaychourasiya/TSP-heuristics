@@ -5,7 +5,7 @@ import time
 start_time = time.time()
 from readData import ReadData
 import numpy as np
-import sys
+import sys 
 
 class TwoOPT:
     """
@@ -13,7 +13,7 @@ class TwoOPT:
           Generate intial tour
           and improve it by deleting 1 one edges
           and change with other
-    -- It gives nearly optimal tour
+    -- It gives nearly optimal tour    
     """
 
     def __init__(self, file):
@@ -38,9 +38,9 @@ class TwoOPT:
     def Swap(self, tour, x, y):
         """
             tour : Given TSP tour
-            x = swappping First index in tour
+            x = swappping First index in tour 
             y = swappping last index in tour
-            return : new_tour with perfomming swapping
+            return : new_tour with perfomming swapping 
             note: x and y should be index only (in tour) not exact city number
         """
         new_tour = tour[:x] + [*reversed(tour[x:y + 1])] + tour[y + 1:]
@@ -50,7 +50,7 @@ class TwoOPT:
         """
         Given any tour it return total distance of
         given tour
-        dis_mat : distance matrix
+        dis_mat : distance matrix 
         """
         total_dis = 0
         for ind, r in enumerate(tour):
@@ -65,7 +65,7 @@ class TwoOPT:
 
     def _optimize(self, initial_tour, Debuglevel=0):
         """
-            Improve existing tour
+            Improve existing tour 
             using 2-opt method
         """
         minchange = -1
@@ -104,26 +104,23 @@ class TwoOPT:
     def run(self):
         tours = []
         tours_dist = []
-        self._write_info()
-        for r in range(5):
-            T = self._initial_random_tour(r+100)
+        #self._write_info()
+        for r in range(1):
+            T = self._initial_random_tour(r)
             tour = self._optimize(T)
             tour_distance = self.get_distance(tour)
             tours.append(tour)
             tours_dist.append(tour_distance)
 
-        self._best_tour(tours,tours_dist)
+        min_dist_index = np.argmin(tours_dist)
+        return (tours_dist[min_dist_index], tours[min_dist_index])
+        
 
-
-    def _best_tour(self,Ts,Tsd):
-        min_dist_index = np.argmin(Tsd)
-        self._writestat(Tsd[min_dist_index], Ts[min_dist_index])
-
-    def _write_info(self):
+    """def _write_info(self):
         print("Instance name:", self.instance.name)
         print("Dimention:", self.size)
         print("Distance Type:", self.instance.EdgeWeightType)
-        print("\n \t \t Running 2-opt over 5 random tour ")
+        print("\n \t \t Running 2-opt over 50 random tour ")
 
     def _writestat(self,D,T):
         print("\n Tour Distance: ",D)
@@ -138,4 +135,4 @@ if len(sys.argv)<2:
 	print("need inpute file")
 	sys.exit(1)
 t = TwoOPT(sys.argv[1])
-t.run()
+t.run()	 """
