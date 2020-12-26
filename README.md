@@ -1,16 +1,16 @@
 # TSP-heuristics
 Implementing various heuristics for Travelling Salesman Problem (TSP), Namely Lin-Kernighan Heuristic, Nearest Neighour Heuristic, genetic algorithm, Simulated Annealing
 
-#abouts files attached
-	TSP_Data: is directory of All TSPLIB instances
-	readData.py: is reading file from TSP_Data
-	All other python files or implemetation of algorithm
+# Description 
+	TSP_Data: this folder has all TSPLIB instances (e.g ch130.tsp, a280.tsp) 
+	readData.py: this python file is used for reading the TSP instances.  
+	All other python files are implemetation of algorithm
 
 Steps for running algorithms
-# terminal commands
-	$ python 'algorithm.py' 'filename'  #for nearest-neighbour
--'algorithm.py': 2-opt.py, nn.py, ga_2-opt_tsp.py, ga_tsp.py	   
--'filename' picked any file from TSP_Data folder eg. ch130.tsp or a280.tsp
+# Terminal commands
+	$ python 'algorithm.py' 'filename'  
+-'algorithm.py': 2-opt.py, nn.py, ga_2-opt_tsp.py, ga_tsp.py
+-'filename' pick any file from TSP_Data folder eg. ch130.tsp or a280.tsp
 
 # Example runs			
 	$ python nn.py kroB100.tsp
