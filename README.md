@@ -10,8 +10,8 @@ Steps for running algorithms
 # Terminal commands
 	$ python 'algorithm.py' 'filename'  
 
-*'algorithm.py': 2-opt.py, nn.py, ga_2-opt_tsp.py, ga_tsp.py
-*'filename' pick any file from TSP_Data folder eg. ch130.tsp or a280.tsp
+* 'algorithm.py': 2-opt.py, nn.py, ga_2-opt_tsp.py, ga_tsp.py
+* 'filename' pick any file from TSP_Data folder eg. ch130.tsp or a280.tsp
 
 # Example runs			
 	$ python nn.py kroB100.tsp
